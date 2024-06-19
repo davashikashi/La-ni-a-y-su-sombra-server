@@ -8,7 +8,7 @@ const { Server } = require("socket.io");
  * Load environment variables from .env file.
  */
 const clientURLLocalhost = "http://localhost:3000";
-const clientUrlDeploy = "https://la-nina-y-su-sombra.vercel.app/";
+const clientUrlDeploy = "https://la-nina-y-su-sombra.vercel.app/level3";
 
 const port = 8080;
 
