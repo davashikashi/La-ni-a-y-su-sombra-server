@@ -48,6 +48,10 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("player-moving", transforms);
   });
 
+  socket.on("player-pequeno",(pequenho) => {
+    socket.broadcast.emit("player-pequeno",pequenho);
+  })
+
   /**
    * Handle player disconnection.
    */
