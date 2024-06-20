@@ -21,7 +21,7 @@ const port = 8080;
  */
 const io = new Server({
   cors: {
-    origin: [clientUrlDeploy],
+    origin: [clientUrlDeploy,clientURLLocalhost],
     methods: ["GET", "POST"],
     credentials: true
   },
