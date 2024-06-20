@@ -46,7 +46,7 @@ io.on("connection", (socket) => {
   );
 
   // Enviar el estado inicial de los tentáculos al cliente recién conectado
-  socket.emit("initial-tentacle-states", tentacleStates);
+  
 
   /**
    * Handle a player's movement.
