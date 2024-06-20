@@ -7,7 +7,7 @@ const { Server } = require("socket.io");
 /**
  * Load environment variables from .env file.
  */
-const clientURLLocalhost = "http://localhost:3000";
+const clientURLLocalhost = "http://localhost:3000/level3";
 const clientUrlDeploy = "https://la-nina-y-su-sombra.vercel.app/level3";
 
 const port = 8080;
@@ -18,7 +18,7 @@ const port = 8080;
  */
 const io = new Server({
   cors: {
-    origin: [clientUrlDeploy,clientURLLocalhost],
+    origin: [clientUrlDeploy],
   },
 });
 
