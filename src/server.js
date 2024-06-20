@@ -21,7 +21,7 @@ const port = 8080;
  */
 const io = new Server({
   cors: {
-    origin: [clientUrlDeploy,clientURLLocalhost],
+    origin: [clientUrlDeploy, clientURLLocalhost],
     methods: ["GET", "POST"],
     credentials: true
   },
@@ -45,6 +45,9 @@ io.on("connection", (socket) => {
     ". There are " + io.engine.clientsCount + " players connected."
   );
 
+  // Enviar el estado inicial de los tentáculos al cliente recién conectado
+  socket.emit("initial-tentacle-states", tentacleStates);
+
   /**
    * Handle a player's movement.
    * Broadcast the transforms to other players.
@@ -65,6 +68,14 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("player-action", action);
   });
 
+  // Manejar la actualización de la vida del tentáculo
+  socket.on("update-tentacle-health", (data) => {
+    const { id, health } = data;
+    tentacleStates[id] = { ...tentacleStates[id], health };
+
+    // Emitir la actualización de vida a todos los clientes
+    io.emit("update-tentacle-health", data);
+  });
   /**
    * Handle player disconnection.
    */
