@@ -8,8 +8,11 @@ const { Server } = require("socket.io");
  * Load environment variables from .env file.
  */
 const clientURLLocalhost = "http://localhost:3000/level3";
-const clientUrlDeploy = "https://la-nina-y-su-sombra.vercel.app/level3";
+const clientUrlDeploy = "https://la-nina-y-su-sombra.vercel.app";
 
+/**
+ * Define the port.
+ */
 const port = 8080;
 
 /**
@@ -19,6 +22,8 @@ const port = 8080;
 const io = new Server({
   cors: {
     origin: [clientUrlDeploy],
+    methods: ["GET", "POST"],
+    credentials: true
   },
 });
 
@@ -42,15 +47,15 @@ io.on("connection", (socket) => {
 
   /**
    * Handle a player's movement.
-   * Broadcast the transforms to other player.
+   * Broadcast the transforms to other players.
    */
   socket.on("player-moving", (transforms) => {
     socket.broadcast.emit("player-moving", transforms);
   });
 
-  socket.on("player-pequeno",(pequenho) => {
-    socket.broadcast.emit("player-pequeno",pequenho);
-  })
+  socket.on("player-pequeno", (pequenho) => {
+    socket.broadcast.emit("player-pequeno", pequenho);
+  });
 
   /**
    * Handle player disconnection.
@@ -59,7 +64,7 @@ io.on("connection", (socket) => {
     console.log(
       "Player disconnected with ID",
       socket.id,
-      ". There are " + io.engine.clientsCount + " players connected"
+      ". There are " + io.engine.clientsCount + " players connected."
     );
   });
 });
