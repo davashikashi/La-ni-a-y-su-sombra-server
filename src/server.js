@@ -61,6 +61,10 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("player-pequeno", pequenho);
   });
 
+  socket.on("player-action", (action) => {
+    socket.broadcast.emit("player-action", action);
+  });
+
   /**
    * Handle player disconnection.
    */
