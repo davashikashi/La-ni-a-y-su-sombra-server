@@ -53,14 +53,13 @@ io.on("connection", (socket) => {
 
   // Enviar el estado inicial de los tentáculos al cliente recién conectado
 
-  
 
 
-  // Send initial box positions to the newly connected client
-  socket.emit("initial-box-positions", boxPositions);
-   /* Handle a player's movement.
-   * Broadcast the transforms to other players.
-   */
+
+
+  /* Handle a player's movement.
+  * Broadcast the transforms to other players.
+  */
   socket.on("player-moving", (transforms) => {
     socket.broadcast.emit("player-moving", transforms);
   });
@@ -78,13 +77,15 @@ io.on("connection", (socket) => {
   });
 
   // Manejar la actualización de la vida del tentáculo
+  // Enviar las posiciones iniciales de las cajas al cliente recién conectado
+  socket.emit("initial-box-positions", boxPositions);
+
+  // Manejar la actualización de la posición de la caja desde el cliente
   socket.on("player-box", (data) => {
     boxPositions[data.id] = data.translation;
-    io.emit("update-box-position", data); // Broadcast the updated position to all clients
+    io.emit("update-box-position", data); // Emitir la posición actualizada a todos los clientes
   });
-  /**
-   * Handle player disconnection.
-   */
+
   socket.on("disconnect", () => {
     console.log(
       "Player disconnected with ID",
