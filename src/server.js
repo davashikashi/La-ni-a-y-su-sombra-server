@@ -27,6 +27,12 @@ const io = new Server({
   },
 });
 
+
+/**
+   * Store box positions globally.
+   */
+let boxPositions = {};
+/**
 /**
  * Start listening on the specified port.
  */
@@ -46,10 +52,13 @@ io.on("connection", (socket) => {
   );
 
   // Enviar el estado inicial de los tentáculos al cliente recién conectado
+
   
 
-  /**
-   * Handle a player's movement.
+
+  // Send initial box positions to the newly connected client
+  socket.emit("initial-box-positions", boxPositions);
+   /* Handle a player's movement.
    * Broadcast the transforms to other players.
    */
   socket.on("player-moving", (transforms) => {
@@ -69,8 +78,9 @@ io.on("connection", (socket) => {
   });
 
   // Manejar la actualización de la vida del tentáculo
-  socket.on("player-box", (transforms) => {
-    socket.broadcast.emit("player-box", transforms);
+  socket.on("player-box", (data) => {
+    boxPositions[data.id] = data.translation;
+    io.emit("update-box-position", data); // Broadcast the updated position to all clients
   });
   /**
    * Handle player disconnection.
