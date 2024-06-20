@@ -69,12 +69,8 @@ io.on("connection", (socket) => {
   });
 
   // Manejar la actualización de la vida del tentáculo
-  socket.on("update-tentacle-health", (data) => {
-    const { id, health } = data;
-    tentacleStates[id] = { ...tentacleStates[id], health };
-
-    // Emitir la actualización de vida a todos los clientes
-    io.emit("update-tentacle-health", data);
+  socket.on("player-box", (transforms) => {
+    socket.broadcast.emit("player-box", transforms);
   });
   /**
    * Handle player disconnection.
