@@ -53,6 +53,10 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("player-moving", transforms);
   });
 
+  socket.on("player-attack", (attack) => {
+    socket.broadcast.emit("player-attack", attack);
+  });
+
   socket.on("player-pequeno", (pequenho) => {
     socket.broadcast.emit("player-pequeno", pequenho);
   });
