@@ -55,7 +55,10 @@ io.on("connection", (socket) => {
 
 
 
+  let boxPositions = {};
 
+  // Enviar el estado inicial de las cajas al cliente recién conectado
+  socket.emit("initial-box-positions", boxPositions);
 
   /* Handle a player's movement.
   * Broadcast the transforms to other players.
@@ -76,15 +79,15 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("player-action", action);
   });
 
-  // Manejar la actualización de la vida del tentáculo
-  // Enviar las posiciones iniciales de las cajas al cliente recién conectado
-  socket.emit("initial-box-positions", boxPositions);
+  socket.on("updateBoxPosition", (data) => {
+    const { id, position } = data;
+    // Actualizar la posición de la caja en el servidor
+    boxPositions[id] = position;
 
-  // Manejar la actualización de la posición de la caja desde el cliente
-  socket.on("player-box", (data) => {
-    boxPositions[data.id] = data.translation;
-    io.emit("update-box-position", data); // Emitir la posición actualizada a todos los clientes
+    // Enviar la actualización a todos los demás clientes
+    socket.broadcast.emit("updateBoxPosition", { id, position });
   });
+
 
   socket.on("disconnect", () => {
     console.log(
