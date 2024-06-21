@@ -7,8 +7,8 @@ const { Server } = require("socket.io");
 /**
  * Load environment variables from .env file.
  */
-const clientURLLocalhost = "http://localhost:3000";
-const clientUrlDeploy = "https://la-nina-y-su-sombra.vercel.app";
+const clientURLLocalhost = "http://localhost:3000/level4";
+const clientUrlDeploy = "https://la-nina-y-su-sombra.vercel.app/level4";
 
 /**
  * Define the port.
@@ -52,14 +52,6 @@ io.on("connection", (socket) => {
   );
 
   // Enviar el estado inicial de los tentáculos al cliente recién conectado
-
-
-
-  let boxPositions = {};
-
-  // Enviar el estado inicial de las cajas al cliente recién conectado
-  socket.emit("initial-box-positions", boxPositions);
-
   /* Handle a player's movement.
   * Broadcast the transforms to other players.
   */
@@ -77,15 +69,6 @@ io.on("connection", (socket) => {
 
   socket.on("player-action", (action) => {
     socket.broadcast.emit("player-action", action);
-  });
-
-  socket.on("updateBoxPosition", (data) => {
-    const { id, position } = data;
-    // Actualizar la posición de la caja en el servidor
-    boxPositions[id] = position;
-
-    // Enviar la actualización a todos los demás clientes
-    socket.broadcast.emit("updateBoxPosition", { id, position });
   });
 
 
